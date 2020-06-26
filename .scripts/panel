@@ -1,0 +1,136 @@
+#!/bin/bash
+
+# Set the colors
+BACKGROUND='#002b36'
+FOREGROUND='#dfd0a9'
+ACCENT='#e46c6d'
+SOFTACCENT='#aecdad'
+DISACCENT='#e6e4e5'
+iconfont="-xos4-terminusicons2mono-medium-r-normal--12-120-72-72-m-60-iso8859-1"
+terminusfont="-xos4-terminesspowerline-medium-r-normal--12-120-72-72-c-60-iso10646-1"
+
+
+[ -e "/tmp/panel-fifo" ] && rm "/tmp/panel-fifo"
+mkfifo "/tmp/panel-fifo"
+i3status > "/tmp/panel-fifo" &
+
+statusline() {
+while read -r line ; do
+	case $line in
+		A*) wifi="%{A:wicd-gtk --no-tray &:}${line#?} %{A}";;
+		B*) charger="%{F$DISACCENT} ${line#?}%{F-}";;
+		C*) battery="${line#?}";;
+		D*) speaker=" %{F$ACCENT}${line#?}%{F-} ";;
+		E*) volume="${line#?}";;
+		F*) temp="${line#?} ";;
+		G*) load=" %{F$ACCENT} CPU%{F-} %{A:urxvt -hold -e htop &:}${line#?} %{A} ";;
+		H*) clock="${line#?}";;
+		I*) disk="%{B#289c93}%{F#263640}${line#?} %{A}%{B-}%{F-}";;
+	esac
+	
+	time=$(echo -en "%{F$ACCENT}\ue266%{F-} $clock")
+
+	energy=$(echo "$battery" | tr -d '%') # Battery without percent
+
+	# Hardcoded the amount of hearts because I don't know about programming
+	if ((0<=energy && energy<=5)); then
+		hearts="%{F$SOFTACCENT} %{F$DISACCENT}         %{F-} "
+	elif ((6<=energy && energy<=10)); then
+		hearts="%{F$ACCENT} %{F$DISACCENT}         %{F-} "
+	elif ((11<=energy && energy<=15)); then
+		hearts="%{F$ACCENT} %{F$SOFTACCENT} %{F$DISACCENT}        %{F-} "
+	elif ((16<=energy && energy<=20)); then
+		hearts="%{F$ACCENT}  %{F$DISACCENT}        %{F-} "
+	elif ((21<=energy && energy<=25)); then
+		hearts="%{F$ACCENT}  %{F$SOFTACCENT} %{F$DISACCENT}       %{F-} "
+	elif ((26<=energy && energy<=30)); then
+		hearts="%{F$ACCENT}   %{F$DISACCENT}       %{F-} "
+	elif ((31<=energy && energy<=35)); then
+		hearts="%{F$ACCENT}   %{F$SOFTACCENT} %{F$DISACCENT}      %{F-} "
+	elif ((36<=energy && energy<=40)); then
+		hearts="%{F$ACCENT}    %{F$DISACCENT}      %{F-} "
+	elif ((41<=energy && energy<=45)); then
+		hearts="%{F$ACCENT}    %{F$SOFTACCENT} %{F$DISACCENT}     %{F-} "
+	elif ((46<=energy && energy<=50)); then
+		hearts="%{F$ACCENT}     %{F$DISACCENT}     %{F-} "
+	elif ((51<=energy && energy<=55)); then
+		hearts="%{F$ACCENT}     %{F$SOFTACCENT} %{F$DISACCENT}    %{F-} "
+	elif ((56<=energy && energy<=60)); then
+		hearts="%{F$ACCENT}      %{F$DISACCENT}    %{F-} "
+	elif ((61<=energy && energy<=65)); then
+		hearts="%{F$ACCENT}      %{F$SOFTACCENT} %{F$DISACCENT}   %{F-} "
+	elif ((66<=energy && energy<=70)); then
+		hearts="%{F$ACCENT}       %{F$DISACCENT}   %{F-} "
+	elif ((71<=energy && energy<=75)); then
+		hearts="%{F$ACCENT}       %{F$SOFTACCENT} %{F$DISACCENT}  %{F-} "
+	elif ((76<=energy && energy<=80)); then
+		hearts="%{F$ACCENT}        %{F$DISACCENT}  %{F-} "
+	elif ((81<=energy && energy<=85)); then
+		hearts="%{F$ACCENT}        %{F$SOFTACCENT} %{F$DISACCENT} %{F-} "
+	elif ((86<=energy && energy<=90)); then
+		hearts="%{F$ACCENT}         %{F$DISACCENT} %{F-} "
+	elif ((91<=energy && energy<=95)); then
+		hearts="%{F$ACCENT}         %{F$SOFTACCENT} %{F-} "
+	elif ((96<=energy && energy<=100)); then
+		hearts="%{F$ACCENT}          %{F-} "
+	fi
+
+	MPD(){
+		if [ $(mpc | head -1 | wc -m) -ge 69 ];
+		then
+		song=$(echo '')
+		else
+		song=$(mpc | head -1)
+		fi
+
+		if [ "$song" = "$(mpc | head -1)" ]; 
+		then
+		echo -n "%{B#dc322f}  $song %{B-}"
+		else
+		echo -n "%{B#dc322f}  %{B-}"
+		fi      
+	}
+
+	Memory(){
+      		mem=$(free -mh | awk '{print $3}' | sed -n '2p' | sed "s/Gi/ GiB/")
+      		echo -en "%{F$ACCENT}\ue021 %{F-}$mem"
+	} 
+	
+	Workspace(){
+		#wm=$(wmctrl -d | awk '{print $2$NF}' ORS=" " | sed -e "s/-//g")
+		wm_number=$(expr index "$(wmctrl -d | awk '{print $2$NF}' | sed s/-//g)" "*")	
+		if ((wm_number == 1)); then
+			wm=$(wmctrl -d | awk '{print $2$NF}' | sed "s/-//g" | sed "s/*//" | sed "1a\%{F-}" | sed "1i\%{F$ACCENT}")
+		elif ((wm_number == 3)); then
+			wm=$(wmctrl -d | awk '{print $2$NF}' | sed "s/-//g" | sed "s/*//" | sed "2a\%{F-}" | sed "2i\%{F$ACCENT}")
+		elif ((wm_number == 5)); then
+                        wm=$(wmctrl -d | awk '{print $2$NF}' | sed "s/-//g" | sed "s/*//" | sed "3a\%{F-}" | sed "3i\%{F$ACCENT}")
+		elif ((wm_number == 7)); then
+                	wm=$(wmctrl -d | awk '{print $2$NF}' | sed "s/-//g" | sed "s/*//" | sed "4a\%{F-}" | sed "4i\%{F$ACCENT}")	
+		elif ((wm_number == 9)); then
+                        wm=$(wmctrl -d | awk '{print $2$NF}' | sed "s/-//g" | sed "s/*//" | sed "5a\%{F-}" | sed "5i\%{F$ACCENT}")
+		elif ((wm_number == 11)); then
+                        wm=$(wmctrl -d | awk '{print $2$NF}' | sed "s/-//g" | sed "s/*//" | sed "6a\%{F-}" | sed "6i\%{F$ACCENT}")
+		elif ((wm_number == 13)); then
+                        wm=$(wmctrl -d | awk '{print $2$NF}' | sed "s/-//g" | sed "s/*//" | sed "7a\%{F-}" | sed "7i\%{F$ACCENT}")
+		elif ((wm_number == 15)); then
+                        wm=$(wmctrl -d | awk '{print $2$NF}' | sed "s/-//g" | sed "s/*//" | sed "8a\%{F-}" | sed "8i\%{F$ACCENT}")
+		fi
+
+
+		#wm=$(wmctrl -d | awk '{print $2$NF}' | sed "s/-//g" | sed "2a\final" | sed "2i\inicio")
+		#echo $wm_number
+		echo $wm
+	}
+
+	loudness=$(echo "$volume" | tr -d '%') # Volume without percent
+
+	printf "%s\n" " %{l}$(MPD) $(Workspace) ${wifi}${temp}${disk}${load}$(Memory)\
+	%{c}${time} %{r}${charger} ${hearts}${speaker}${volume}   "
+done
+}
+
+statusline < "/tmp/panel-fifo" | lemonbar -g x28 \
+-f -*-cinnamonroll-* -f -*-waffle-* \
+-B $BACKGROUND -F $FOREGROUND | dash 
+

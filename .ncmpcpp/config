@@ -1,0 +1,46 @@
+[mpd]
+mpd_music_dir = "/media/dylan-roman/Acer/Users/Dylan/Music"
+mpd_host = "localhost"
+#mpd_port = "6600"
+mpd_crossfade_time = "2"
+ncmpcpp_directory = /home/dylan-roman/.ncmpcpp
+
+[visualizer]
+visualizer_fifo_path = "/tmp/mpd.fifo"
+visualizer_in_stereo = "no"
+visualizer_type = "wave"
+visualizer_output_name = "my_fifo"
+visualizer_look = "│┃"
+visualizer_color = "red"
+
+[header]
+header_visibility = "no"
+header_window_color = "default"
+volume_color = "default"
+state_line_color = "black"
+
+[playlist]
+browser_display_mode = "columns"
+search_engine_display_mode = "columns"
+playlist_display_mode = "classic"
+song_list_format = "                              {{%a - %t}|{%f}}{$R%l}"
+
+[statusbar]
+progressbar_look = "─╼ "
+progressbar_color = "black"
+statusbar_visibility = "no"
+statusbar_color = "default"
+song_status_format = "{{%a{ - %t}}|{ - %f}{ - %b{ (%y)}}}"
+
+[library]
+song_library_format = "                             {%n - }{%t}|{%f}"
+empty_tag_color = "red"
+
+[global]
+colors_enabled = "yes"
+main_window_color = "default"
+centered_cursor = "yes"
+enable_window_title = "yes"
+external_editor = "vim"
+
+execute_on_song_change = ~/.ncmpcpp/art.sh

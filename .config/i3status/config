@@ -1,0 +1,57 @@
+general {
+        output_format = "none"
+        colors = false
+        interval = 4
+        separator = ""
+}
+
+order += "wireless wlp3s0"
+order += "battery 1"
+order += "volume master"
+order += "cpu_temperature 0"
+order += "load"
+order += "tztime local"
+order += "disk /"
+
+wireless wlp3s0 {
+        format_up = "A %{F#e46c6d} %{F-} %essid \n"
+        format_down = "A  Disconnected \n"
+}
+
+battery 1 {
+        last_full_capacity = true
+        format = "B %status \nC %percentage \n"
+        format_down = "B % \nC 0 \n"
+        integer_battery_capacity = true
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        status_chr = ""
+        status_bat = ""
+        status_unk = ""
+        status_full = ""
+}
+
+volume master {
+        format = "D VOL \nE %volume \n"
+        format_muted = "D MUTED \nE 0 \n"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}
+
+cpu_temperature 1 {
+        format = "F %degrees°C"
+        path = "/sys/class/thermal/thermal_zone0/temp"
+}
+
+load {
+        format = "G %5min Load \n"
+}
+
+tztime local {
+        format = "H %time \n"
+        format_time = "%A %-d %B at %H:%M"
+}
+
+disk "/" {
+        format = "F %{F#e46c6d}%{F-} %free Free \n"
+}
