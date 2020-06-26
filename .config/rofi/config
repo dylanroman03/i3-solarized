@@ -1,0 +1,10 @@
+rofi.theme: .config/rofi/base16-solarized
+rofi.width: 50
+rofi.lines: 7
+rofi.show-icons: true
+rofi.icon-theme: Numix Circle
+rofi.line-padding: 50
+rofi.separator-style: none
+rofi.font: -*-rissole-* 10
+rofi.modi: drun,run,window,ssh
+
