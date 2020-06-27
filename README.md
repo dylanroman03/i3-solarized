@@ -29,7 +29,7 @@ First of all, this is not a complete installation guide, it is just advice, how 
 - wmctrl
 - awk
 - sed
-- wal
+- [pywal](https://github.com/dylanaraps/pywal)
 - xset
 - hsetroot
 - compton
