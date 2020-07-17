@@ -228,7 +228,7 @@ for_window [class="URxvt"] move workspace $ws2
 for_window [class="Code"] move workspace $ws1
 
 bindsym $mod+Shift+f exec firefox
-bindsym $mod+Shift+s exec shutdown -h now
+bindsym $mod+Shift+s exec ~/.scripts/powermenu.sh
 bindsym Print exec ~/.scripts/screeny 
 
 exec compton
@@ -237,4 +237,6 @@ exec xset +fp ~/.fonts/misc/
 exec xset +fp ~/bitmap-font-collections/
 exec .scripts/panel 
 exec hsetroot -cover Imágenes/photo-1481455473976-c280ae7c10f9.png
-exec pacmd load-module module-remap-sink sink_name=mono master=alsa_output.pci-0000_04_00.6.analog-stereo channels=2 channel_map=mono,mono
+
+
+##exec pacmd load-module module-remap-sink sink_name=mono master=alsa_output.pci-0000_04_00.6.analog-stereo channels=2 channel_map=mono,mono
