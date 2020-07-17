@@ -20,6 +20,10 @@ Before continuing, I would like to make it clear that I was inspired by the user
 **Rofi - Theme base16-solarized:**  Using the theme created by my. <br />
 **Playing:** ncmpcpp  with The Cranberries - Twenty One.
 
+### My PowerMenu
+![rofi-base16-solarized-powermenu](https://i.imgur.com/8O3jpa7.png)
+**Rofi - Theme base16-solarized for PowerMenu:** Using your own script (power menu). <br />
+
 ## Getting started
 First of all, this is not a complete installation guide, it is just advice, how my desktop works and of course things to keep in mind.
 
