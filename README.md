@@ -8,8 +8,11 @@ Before continuing, I would like to make it clear that I was inspired by the user
 ## Important Update
 I changed some things in the repo (You can to view the "diff" with git), I now use [ncmpcpp-ueberzug](https://github.com/alnj/ncmpcpp-ueberzug), It Already added in the config file, but you should install it, it's easy just follow instructions in the link before.Finally there's a script for change the color scheme in based your wallpaper. Below an image of my new desktop with new settings (not much difference in appearance but in functionality yes).
 
+## Multiple Windows (Wallpaper Park)
+![preview-i3 Park](https://github.com/dylanroman03/i3-solarized/blob/master/Cheese_21.02.28_18.41.45.png)
 
-![]
+## Multiple Windows (Wallpaper Bicycle)
+![preview-i3 Bicycle](https://github.com/dylanroman03/i3-solarized/blob/master/Cheese_21.02.28_18.40.43.png)
 
 **Important:** for the "change color scheme script" work, you have export the colors pywal generated.
 
