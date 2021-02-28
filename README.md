@@ -5,6 +5,27 @@ Before continuing, I would like to make it clear that I was inspired by the user
 
 **NOTA:** copying the configuration file does not make it work instantly, you will need to install the dependencies, change the username and some other things that adapt to your pc, but don't worry I will try to specify how my desktop works a little.
 
+## Important Update
+I changed some things in the repo (You can to view the "diff" with git), I now use [ncmpcpp-ueberzug](https://github.com/alnj/ncmpcpp-ueberzug), It Already added in the config file, but you should install it, it's easy just follow instructions in the link before.Finally there's a script for change the color scheme in based your wallpaper. Below an image of my new desktop with new settings (not much difference in appearance but in functionality yes).
+
+
+![]
+
+**Important:** for the "change color scheme script" work, you have export the colors pywal generated.
+
+~~~
+# Add this line to your .bashrc or a shell script.
+source "$HOME/.cache/wal/colors.sh"
+~~~
+
+the script is in .scripts/rofiChange.sh
+
+~~~
+wal -i Imágenes/Wallpapers/park.jpg
+.scripts/rofiChange.sh
+~~~
+
+
 ## Preview
 ### i3-gaps - Multiple Windows
 ![preview-i3](https://i.imgur.com/4YAtGLY.png)
@@ -37,6 +58,7 @@ First of all, this is not a complete installation guide, it is just advice, how 
 - xset
 - hsetroot
 - compton
+- w3m
 
 I hope I have not forgotten any :wink:
 
