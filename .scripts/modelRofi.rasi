@@ -1,0 +1,57 @@
+* {
+    backgroundcolor: argb:f9002b36; 
+    bg1: #3b4252;
+    backgroundcoloralternate: #002b36;
+    separatorcolor: #002b36;
+    scrollbarcolor: #002b36;
+    foregroundcolor: #ffffff;
+    foregroundcolorinverse: #dc322f; 
+    selectioncolor: #002b36;
+    selectedcolor: #00363e;
+
+
+    font: "FontAwesome 40";
+    border-color: @separatorcolor;
+    background-color: @backgroundcolor;
+    text-color: #ebe3e0;
+}
+
+window {
+    background-color: @backgroundcolor;
+    border-color: @separatorcolor;
+    height: 26%;
+    width: 48%;
+    anchor: center;
+    location: center;
+    padding: 25px 25px;
+}
+
+horibox {
+    padding: 0px;
+    children: [listview];
+}
+
+listview {
+    layout: horizontal;
+    spacing: 50px;
+    lines: 4;
+}
+
+element {
+    border: 10px;
+    border-color: @separatorcolor;
+    padding: 25px 25px 20px -25px;
+}
+
+element selected normal {
+    background-color: @selectedcolor;
+    text-color: @foregroundcolorinverse;
+    border-color: @separatorcolor;
+}
+
+inputbar { enabled: false;}
+
+mesagge {
+  text-color: @foregroundcolor;
+}
+

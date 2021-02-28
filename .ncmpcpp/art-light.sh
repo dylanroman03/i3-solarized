@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MUSIC_DIR=/media/dylan-roman/Acer/Users/Dylan/Music
+MUSIC_DIR=/mnt/Acer/Users/Dylan/Music
 
 COVER=/tmp/cover.jpg
 

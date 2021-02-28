@@ -5,17 +5,22 @@ general {
         separator = ""
 }
 
-order += "wireless wlp3s0"
+order += "wireless wlan0"
 order += "battery 1"
 order += "volume master"
+order += "disk /home/"
 order += "cpu_temperature 0"
 order += "load"
 order += "tztime local"
-order += "disk /"
 
-wireless wlp3s0 {
-        format_up = "A %{F#e46c6d} %{F-} %essid \n"
-        format_down = "A  Disconnected \n"
+#wireless wlp3s0 {
+#        format_up = "A %{F#e46c6d} %{F-} %essid \n"
+#        format_down = "A  Disconnected \n"
+#}
+
+wireless wlan0 {
+        format_up = "A %essid \n"
+        format_down = "A Disconnected \n"
 }
 
 battery 1 {
@@ -52,6 +57,6 @@ tztime local {
         format_time = "%A %-d %B at %H:%M"
 }
 
-disk "/" {
-        format = "F %{F#e46c6d}%{F-} %free Free \n"
+disk "/home/" {
+        format = "F %free Free \n"
 }

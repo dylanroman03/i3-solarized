@@ -1,9 +1,11 @@
 #!/bin/bash
 
+source "$HOME/.cache/wal/colors.sh"
+
 # Set the colors
-BACKGROUND='#002b36'
+BACKGROUND=$background
 FOREGROUND='#dfd0a9'
-ACCENT='#e46c6d'
+ACCENT=$color1
 SOFTACCENT='#aecdad'
 DISACCENT='#e6e4e5'
 iconfont="-xos4-terminusicons2mono-medium-r-normal--12-120-72-72-m-60-iso8859-1"
@@ -17,15 +19,16 @@ i3status > "/tmp/panel-fifo" &
 statusline() {
 while read -r line ; do
 	case $line in
-		A*) wifi="%{A:wicd-gtk --no-tray &:}${line#?} %{A}";;
+		#A*) wifi="%{A:wicd-gtk --no-tray &:} %{F$ACCENT}%{F-} ${line#?} %{A}";;
+		A*) wifi="%{F$ACCENT}%{F-} ${line#?} ";;
 		B*) charger="%{F$DISACCENT} ${line#?}%{F-}";;
 		C*) battery="${line#?}";;
 		D*) speaker=" %{F$ACCENT}${line#?}%{F-} ";;
 		E*) volume="${line#?}";;
-		F*) temp="${line#?} ";;
-		G*) load=" %{F$ACCENT} CPU%{F-} %{A:urxvt -hold -e htop &:}${line#?} %{A} ";;
+		F*) disk="%{F$ACCENT}%{F-} ${line#?} ";;
+		#G*) load=" %{F$ACCENT} CPU%{F-} %{A:urxvt -hold -e htop &:}${line#?} %{A} ";;
+		G*) load=" %{F$ACCENT} CPU%{F-} ${line#?} ";;
 		H*) clock="${line#?}";;
-		I*) disk="%{B#289c93}%{F#263640}${line#?} %{A}%{B-}%{F-}";;
 	esac
 	
 	time=$(echo -en "%{F$ACCENT}\ue266%{F-} $clock")
@@ -85,15 +88,19 @@ while read -r line ; do
 
 		if [ "$song" = "$(mpc | head -1)" ]; 
 		then
-		echo -n "%{B#dc322f}  $song %{B-}"
+			if (( ${#song} < 35 )); then
+			echo -n "%{B$ACCENT}  $song %{B-}"
+			else
+			echo -n "%{B$ACCENT}  ${song:0:34}... %{B-}"
+			fi
 		else
-		echo -n "%{B#dc322f}  %{B-}"
+		echo -n "%{B$ACCENT}  %{B-}"
 		fi      
 	}
 
 	Memory(){
       		mem=$(free -mh | awk '{print $3}' | sed -n '2p' | sed "s/Gi/ GiB/")
-      		echo -en "%{F$ACCENT}\ue021 %{F-}$mem"
+      		echo -en "%{F$ACCENT} \ue021 %{F-}$mem"
 	} 
 	
 	Workspace(){
@@ -125,7 +132,7 @@ while read -r line ; do
 
 	loudness=$(echo "$volume" | tr -d '%') # Volume without percent
 
-	printf "%s\n" " %{l}$(MPD) $(Workspace) ${wifi}${temp}${disk}${load}$(Memory)\
+	printf "%s\n" " %{l}$(MPD) $(Workspace)  ${wifi}${disk}${load}$(Memory)\
 	%{c}${time} %{r}${charger} ${hearts}${speaker}${volume}   "
 done
 }
@@ -133,4 +140,3 @@ done
 statusline < "/tmp/panel-fifo" | lemonbar -g x28 \
 -f -*-cinnamonroll-* -f -*-waffle-* \
 -B $BACKGROUND -F $FOREGROUND | dash 
-

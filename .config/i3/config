@@ -11,10 +11,13 @@
 
 # #---Basic Definitions---# #
 for_window [class="^.*"] border pixel 2
-gaps inner 5
-gaps outer 5
+gaps inner 10
+gaps outer 10
 smart_gaps  on
-#hide_edge_borders smart_no_gaps
+#smart_borders on
+#smart_borders no_gaps
+#border_radius 6
+
 set $mod Mod4
 
 set_from_resource $black        color0  #282828
@@ -57,10 +60,14 @@ exec --no-startup-id nm-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Use xbacklikght for adjust backligth
+bindsym XF86MonBrightnessUp exec xbacklight -10
+bindsym XF86MonBrightnessDown exec xbacklight +10
 
 # #---Dropdown Windows---# #
 # General dropdown window traits. The order can matter.
@@ -74,6 +81,8 @@ for_window [instance="dropdown_tmuxdd"] border pixel 3
 for_window [instance="dropdown_dropdowncalc"] border pixel 2
 for_window [instance="dropdown_*"] move position center
 
+# Change focus whit mouse
+focus_follows_mouse no
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -224,19 +233,24 @@ bindsym $mod+r mode "resize"
 #}
 
 for_window [class="Firefox"] move workspace $ws3
+for_window [class="firefoxdeveloperedition"] move workspace $ws3
 for_window [class="URxvt"] move workspace $ws2
 for_window [class="Code"] move workspace $ws1
+for_window [class="icq"] move workspace $ws4
 
-bindsym $mod+Shift+f exec firefox
+bindsym $mod+Shift+f exec firefox-developer-edition
 bindsym $mod+Shift+s exec ~/.scripts/powermenu.sh
 bindsym Print exec ~/.scripts/screeny 
 
+
 exec compton
-exec wal --theme base16-solarized
 exec xset +fp ~/.fonts/misc/
+exec xset +fp ~/.fonts/terminesspowerline
 exec xset +fp ~/bitmap-font-collections/
 exec .scripts/panel 
-exec hsetroot -cover Imágenes/photo-1481455473976-c280ae7c10f9.png
+exec setxkbmap latam
+exec_always wal -i ~/Imágenes/Wallpapers/pallete.jpg --saturate 0.5
+exec_always  ~/.scripts/rofiChange.sh
 
 
 ##exec pacmd load-module module-remap-sink sink_name=mono master=alsa_output.pci-0000_04_00.6.analog-stereo channels=2 channel_map=mono,mono
